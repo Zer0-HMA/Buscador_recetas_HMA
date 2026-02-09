@@ -9,12 +9,13 @@
 
     <style>
         :root {
-            --bg-main: #0f172a;
-            --bg-card: #111827;
-            --primary: #22c55e;
-            --primary-dark: #16a34a;
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --secondary: #f97316;
+            --bg-main: #fff7ed;
+            --bg-card: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
         }
 
         body {
@@ -22,73 +23,78 @@
             color: var(--text-main);
         }
 
+        /* NAVBAR */
         .navbar {
-            background-color: #020617;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .navbar-brand,
         .nav-link {
-            color: var(--text-main) !important;
+            color: #fff !important;
         }
 
         .nav-link.active {
-            color: var(--primary) !important;
             font-weight: 600;
+            text-decoration: underline;
         }
 
+        /* CARD */
         .card {
             background-color: var(--bg-card);
-            border: none;
             border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,.4);
+            border: none;
+            box-shadow: 0 15px 30px rgba(0,0,0,.1);
+            animation: fadeUp .6s ease;
         }
 
-        .form-label {
-            color: var(--text-main);
-        }
-
+        /* FORM */
         .form-select {
-            background-color: #020617;
-            color: var(--text-main);
-            border: 1px solid #1f2933;
+            border-radius: .75rem;
+            padding: .75rem;
         }
 
         .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 .2rem rgba(34,197,94,.25);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 .2rem rgba(249,115,22,.25);
         }
 
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
+        /* RESULTS */
+        #resultado .card {
+            transition: transform .3s ease, box-shadow .3s ease;
         }
 
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
+        #resultado .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,.15);
         }
 
+        /* MODAL */
         .modal-content {
-            background-color: var(--bg-card);
-            color: var(--text-main);
+            border-radius: 1rem;
         }
 
-        .toast {
-            background-color: var(--bg-card);
-            color: var(--text-main);
-        }
-
+        /* TOAST */
         .toast-header {
             background-color: var(--primary);
-            color: #020617;
+            color: #fff;
         }
 
+        /* FOOTER */
         footer {
-            background-color: #020617;
+            background-color: #7f1d1d;
+            color: #fff;
         }
 
-        .text-muted {
-            color: var(--text-muted) !important;
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -96,29 +102,24 @@
 <body class="d-flex flex-column min-vh-100">
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg shadow-sm">
+<nav class="navbar navbar-expand-lg shadow">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4" href="index.html">
             Buscador de Recetas
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav"
-            aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav gap-3">
                 <li class="nav-item">
-                    <a class="nav-link fs-5 active" aria-current="page" href="index.html">
-                        Inicio
-                    </a>
+                    <a class="nav-link active fs-5" href="index.html">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5" href="favoritos.html">
-                        Favoritos
-                    </a>
+                    <a class="nav-link fs-5" href="favoritos.html">Favoritos</a>
                 </li>
             </ul>
         </div>
@@ -129,62 +130,56 @@
 <main class="container my-5 flex-fill">
 
     <header class="text-center mb-5">
-        <h1 class="fw-bold">Buscador de Recetas</h1>
+        <h1 class="fw-bold">Encuentra recetas deliciosas</h1>
         <p class="text-muted fs-5">
-            Selecciona una categoría para encontrar recetas
+            Elige una categoría y descubre nuevas recetas
         </p>
     </header>
 
-    <!-- FORM -->
     <div class="d-flex justify-content-center">
         <form class="card col-md-8 p-4 p-md-5">
-            <div class="mb-3">
-                <label for="categorias" class="form-label fs-5">
-                    Categoría
-                </label>
-                <select id="categorias" class="form-select form-select-lg">
-                    <option selected>-- Seleccione --</option>
-                </select>
-            </div>
+            <label for="categorias" class="form-label fs-5 mb-2">
+                Categoría de comida
+            </label>
+            <select id="categorias" class="form-select form-select-lg">
+                <option selected>-- Seleccione --</option>
+            </select>
         </form>
     </div>
 
-    <!-- RESULTADOS -->
     <section id="resultado" class="row mt-5 g-4"></section>
 
 </main>
 
 <!-- MODAL -->
-<div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-            <div class="modal-header border-secondary">
+            <div class="modal-header">
                 <h5 class="modal-title fw-bold"></h5>
-                <button type="button" class="btn-close btn-close-white"
-                    data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body"></div>
-            <div class="modal-footer border-secondary justify-content-between"></div>
+            <div class="modal-footer justify-content-between"></div>
         </div>
     </div>
 </div>
 
 <!-- TOAST -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toast" class="toast">
         <div class="toast-header">
             <strong class="me-auto">App Recetas</strong>
-            <button type="button" class="btn-close"
-                data-bs-dismiss="toast" aria-label="Cerrar"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
         </div>
         <div class="toast-body"></div>
     </div>
 </div>
 
 <!-- FOOTER -->
-<footer class="py-3">
+<footer class="py-3 mt-auto">
     <div class="container text-center">
-        <small class="text-muted">
+        <small>
             © 2026 — Buscador de Recetas | Humberto Martínez Aragón
         </small>
     </div>
@@ -192,6 +187,5 @@
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>
