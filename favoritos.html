@@ -3,115 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Favoritos | Buscador de Recetas</title>
+    <title>Favoritos | Buscador de Recetas</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <style>
-        :root {
-            --bg-main: #0f172a;        /* azul oscuro */
-            --bg-card: #111827;
-            --primary: #22c55e;       /* verde */
-            --primary-dark: #16a34a;
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
-        }
-
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
+            background-color: #fff7ed;
+            color: #1f2937;
         }
 
         .navbar {
-            background-color: #020617;
-        }
-
-        .nav-link,
-        .navbar-brand {
-            color: var(--text-main) !important;
-        }
-
-        .nav-link.active {
-            color: var(--primary) !important;
-            font-weight: 600;
+            background: linear-gradient(90deg, #dc2626, #f97316);
         }
 
         .card {
-            background-color: var(--bg-card);
-            border: none;
             border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,.4);
+            box-shadow: 0 15px 30px rgba(0,0,0,.1);
+            transition: transform .3s ease;
+            animation: fadeUp .6s ease;
         }
 
-        .card img {
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-
-        .modal-content {
-            background-color: var(--bg-card);
-            color: var(--text-main);
-        }
-
-        .toast {
-            background-color: var(--bg-card);
-            color: var(--text-main);
-        }
-
-        .toast-header {
-            background-color: var(--primary);
-            color: #020617;
+        .card:hover {
+            transform: translateY(-6px);
         }
 
         footer {
-            background-color: #020617;
-        }
-
-        .text-muted {
-            color: var(--text-muted) !important;
+            background-color: #7f1d1d;
+            color: #fff;
         }
 
         .empty-state {
             min-height: 40vh;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg shadow-sm">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand fw-bold fs-4" href="index.html">
+        <a class="navbar-brand text-white fw-bold fs-4" href="index.html">
             Buscador de Recetas
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav gap-3">
                 <li class="nav-item">
-                    <a class="nav-link fs-5" href="index.html">Inicio</a>
+                    <a class="nav-link text-white fs-5" href="index.html">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5 active" aria-current="page" href="favoritos.html">
+                    <a class="nav-link text-white fs-5 active" href="favoritos.html">
                         Favoritos
                     </a>
                 </li>
@@ -120,22 +73,6 @@
     </div>
 </nav>
 
-<!-- MODAL -->
-<div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title fw-bold"></h5>
-                <button type="button" class="btn-close btn-close-white"
-                    data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer border-secondary justify-content-between"></div>
-        </div>
-    </div>
-</div>
-
-<!-- MAIN -->
 <main class="container my-5 flex-fill">
 
     <header class="text-center mb-5">
@@ -145,47 +82,28 @@
         </p>
     </header>
 
-    <!-- RESULTADOS -->
-    <section id="resultado" class="row g-4 favoritos"></section>
+    <section id="resultado" class="row g-4"></section>
 
-    <!-- ESTADO VACÍO -->
     <section id="empty" class="empty-state d-none d-flex flex-column
         justify-content-center align-items-center text-center">
-        <h3 class="fw-bold mb-2">No hay favoritos aún</h3>
-        <p class="text-muted mb-4">
-            Guarda recetas para verlas aquí
-        </p>
-        <a href="index.html" class="btn btn-primary btn-lg">
+        <h3 class="fw-bold">No tienes favoritos aún</h3>
+        <p class="text-muted mb-3">Guarda recetas y aparecerán aquí</p>
+        <a href="index.html" class="btn btn-danger btn-lg">
             Buscar recetas
         </a>
     </section>
 
 </main>
 
-<!-- TOAST -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">App Recetas</strong>
-            <button type="button" class="btn-close"
-                data-bs-dismiss="toast" aria-label="Cerrar"></button>
-        </div>
-        <div class="toast-body"></div>
-    </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="py-3">
+<footer class="py-3 mt-auto">
     <div class="container text-center">
-        <small class="text-muted">
+        <small>
             © 2026 — Buscador de Recetas | Humberto Martínez Aragón
         </small>
     </div>
 </footer>
 
-<!-- SCRIPTS -->
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>
